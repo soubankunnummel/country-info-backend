@@ -7,9 +7,9 @@ const route = Router()
 
 
 route.get('/countries', cacheHandler, countryController.getAllCountries)
-route.get('/countries/:code', cacheHandler, countryController.getCountriesByCode);
-route.get('/countries/region/:region', cacheHandler, countryController.getCountriesByRegion);
-route.get('/countries/capital/:capital', cacheHandler, countryController.getCountriesCapital);
+route.get('/countrie/:code', cacheHandler, countryController.getCountriesByCode);
+// route.get('/countries/region/:region', cacheHandler, countryController.getCountriesByRegion);
+// route.get('/countries/capital/:capital', cacheHandler, countryController.getCountriesCapital);
 route.get('/countries/search', cacheHandler, countryController.searchCountries);
 
 export default route;

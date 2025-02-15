@@ -24,30 +24,30 @@ export class CountryService {
       }
       return data[0];
     } catch (error) {
-      throw new ApiError(500, "Erro fetching country by code..");
+      throw new ApiError(500, "Erro fetching country by codes..");
     }
   }
-  async getCountriesByCapital(capital: string): Promise<Country> {
-    try {
-      const { data } = await axios.get(`${this.baseUrl}/capital/${capital}`);
+  // async getCountriesByCapital(capital: string): Promise<Country> {
+  //   try {
+  //     const { data } = await axios.get(`${this.baseUrl}/capital/${capital}`);
 
-      if (!data.length) {
-        throw new ApiError(404, "Country not found..");
-      }
-      return data[0];
-    } catch (error) {
-      throw new ApiError(500, "Erro fetching country by capital..");
-    }
-  }
+  //     if (!data.length) {
+  //       throw new ApiError(404, "Country not found..");
+  //     }
+  //     return data[0];
+  //   } catch (error) {
+  //     throw new ApiError(500, "Erro fetching country by capital..");
+  //   }
+  // }
 
-  async getCountriesByRegion(region: string): Promise<Country[]> {
-    try {
-      const { data } = await axios.get(`${this.baseUrl}/region/${region}`);
-      return data;
-    } catch (error) {
-      throw new ApiError(500, "Error fetching countries by region");
-    }
-  }
+  // async getCountriesByRegion(region: string): Promise<Country[]> {
+  //   try {
+  //     const { data } = await axios.get(`${this.baseUrl}/region/${region}`);
+  //     return data;
+  //   } catch (error) {
+  //     throw new ApiError(500, "Error fetching countries by region");
+  //   }
+  // }
 
   async searchCountries(param: CountrySearchParams): Promise<Country[]> {
     try {

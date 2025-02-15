@@ -20,25 +20,25 @@ export class CountryController {
       next(error);
     } 
   }
-  async getCountriesCapital(req: Request, res: Response, next: NextFunction) {
-    try {
-      const country = await countryService.getCountriesByCapital(req.params.capital);
-      res.json(country);
-    } catch (error) {
-      next(error);
-    } 
-  }
+  // async getCountriesCapital(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const country = await countryService.getCountriesByCapital(req.params.capital);
+  //     res.json(country);
+  //   } catch (error) {
+  //     next(error);
+  //   } 
+  // }
 
-  async getCountriesByRegion(req: Request, res: Response, next: NextFunction) {
-    try {
-      const countries = await countryService.getCountriesByRegion(
-        req.params.region
-      );
-      res.json(countries);  
-    } catch (error) {
-      next(error); 
-    }
-  }
+  // async getCountriesByRegion(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const countries = await countryService.getCountriesByRegion(
+  //       req.params.region
+  //     );
+  //     res.json(countries);  
+  //   } catch (error) {
+  //     next(error); 
+  //   }
+  // }
 
   async searchCountries(req: Request, res: Response, next: NextFunction) {
     try {
