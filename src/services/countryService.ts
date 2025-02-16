@@ -9,22 +9,29 @@ export class CountryService {
   async getAllCountries(): Promise<Country[]> {
     try {
       const { data } = await axios.get(`${this.baseUrl}/all`);
-      return data; 
+      return data;
     } catch (error) {
       throw new ApiError(500, "Erro fetching countries..");
-    } 
+    }
   }
 
   async getCountriesByCode(code: string): Promise<Country> {
     try {
       const { data } = await axios.get(`${this.baseUrl}/alpha/${code}`);
 
-      if (!data.length) {
-        throw new ApiError(404, "Country not found..");
+      if (!data || data.length === 0) {
+        throw new ApiError(
+          404,
+          `Country with code ${code} not found.`,
+          "not_found"
+        );
       }
       return data[0];
-    } catch (error) {
-      throw new ApiError(500, "Erro fetching country by codes..");
+    } catch (error: any) {
+      throw new ApiError(
+        error.response.data.status,
+        error.response.data.message
+      );
     }
   }
   // async getCountriesByCapital(capital: string): Promise<Country> {
@@ -52,33 +59,37 @@ export class CountryService {
   async searchCountries(param: CountrySearchParams): Promise<Country[]> {
     try {
       let results: Country[] = [];
-  
+
       // Search by name (if provided)
       if (param.name) {
         const { data } = await axios.get(`${this.baseUrl}/name/${param.name}`);
         results = data;
       }
-  
+
       // Search by capital (if provided)
       if (param.capital) {
-        const { data } = await axios.get(`${this.baseUrl}/capital/${param.capital}`);
+        const { data } = await axios.get(
+          `${this.baseUrl}/capital/${param.capital}`
+        );
         results = results.length
           ? results.filter((country) =>
               data.some((c: Country) => c.cca2 === country.cca2)
             )
           : data;
       }
-  
+
       // Search by region (if provided)
       if (param.region) {
-        const { data } = await axios.get(`${this.baseUrl}/region/${param.region}`);
+        const { data } = await axios.get(
+          `${this.baseUrl}/region/${param.region}`
+        );
         results = results.length
           ? results.filter((country) =>
               data.some((c: Country) => c.cca2 === country.cca2)
             )
           : data;
       }
-  
+
       // Search by timezone (if provided)
       if (param.timezone) {
         const allCountries = await this.getAllCountries();
@@ -91,17 +102,17 @@ export class CountryService {
             )
           : timezoneResults;
       }
-  
+
       // If no search parameters are provided, return all countries
       if (!param.name && !param.capital && !param.region && !param.timezone) {
         results = await this.getAllCountries();
       }
-  
+
       // Remove duplicates (if multiple search parameters are used)
       const uniqueResults = Array.from(new Set(results.map((c) => c.cca2))).map(
         (cca2) => results.find((c) => c.cca2 === cca2)!
       );
-  
+
       return uniqueResults;
     } catch (error) {
       throw new ApiError(500, "Error searching countries");
@@ -109,5 +120,4 @@ export class CountryService {
   }
 }
 
-
-export const countryService  = new CountryService();
+export const countryService = new CountryService();

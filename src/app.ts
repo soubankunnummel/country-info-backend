@@ -3,7 +3,7 @@ import express from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import countryRoutes from "./routes/countryRoutes";
-import { erroHandler } from "./middleware/errorHandler";
+import { errorHandler } from "./middleware/errorHandler";
 
 const app = express();
 
@@ -27,7 +27,6 @@ app.use(limiter);
 app.use("/api", countryRoutes);
 
 //error handler
-app.use(erroHandler);
-console.log(`wqrin,..........`);
+app.use(errorHandler);
 
 export default app;
